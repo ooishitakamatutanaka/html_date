@@ -29,12 +29,6 @@ function test() {
     cont1.fillStyle = grad;
     //cont1.rect(150,0, 200,200);
     cont1.fill();
-    cont.beginPath();
-    //cont1.fillStyle = 'rgb(128, 100, 162)';
-    //cont1.arc(80,40,20,Math.PI*0.5,Math.PI*1.5,true);
-    //cont1.fill();
-    //cont1.arc(80,80,20,Math.PI*0.5,Math.PI*1.5,false);
-    //cont1.fill();
     cont.arc(230,60,60,0,Math.PI*2,false);
     cont.fill();
 
@@ -50,6 +44,25 @@ function test() {
     cont1.fill(); 
     cont1.arc(230,180,60,0,Math.PI*2,false); //ŠO˜g
     cont1.fill();
+
+    //”¼ŒŽ“ñ‚Â‘±‚«
+    cont1.beginPath();
+    cont1.fillStyle = 'rgb(128, 100, 162)';
+    cont1.arc(80,40,20,Math.PI*0.5,Math.PI*1.5,true);
+    cont1.fill();
+    cont1.arc(80,80,20,Math.PI*0.5,Math.PI*1.5,false);
+    cont1.fill();
+
+    //ŒÜŠpŒ`
+    cont1.beginPath();
+    cont1.moveTo(240, 200); //•`‰æŠJŽn“_
+    cont1.lineTo(160, 330); //•`‰æI—¹“_
+    cont1.lineTo(20, 270);  //•`‰æI—¹“_
+    cont1.lineTo(20, 130);  //•`‰æI—¹“_
+    cont1.lineTo(160, 90);  //•`‰æI—¹“_
+    cont1.closePath();  //•`‰æI—¹
+    cont1.stroke();
+
   }
 }
 //-->
