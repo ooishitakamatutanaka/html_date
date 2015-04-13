@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>canvas</title>
+<script type="text/javascript">
+<!--
+function test() {
+  //描画コンテキストの取得
+  var canvas = document.getElementById('sample');
+  if (canvas.getContext) {
+    var cont = canvas.getContext('2d');
+
+    //黒円
+    cont.arc(40,40,20,0,Math.PI*2,false);
+    cont.fill(); 
+    cont.beginPath(); //サブパスのリストを空にして以降の描画への影響を防ぐ
+
+    var cont1 = canvas.getContext('2d');
+
+    //青系グラデーションの円
+    /* グラデーション領域をセット */
+    var grad  = cont.createRadialGradient(230,100,20,230,60,60);
+    //最小円の座標(x､y)、半径、最大円の座標(x､y)、半径
+    /* グラデーション終点のオフセットと色をセット */
+    grad.addColorStop(0,'blue');      // 最小円
+    grad.addColorStop(0.5,'royalblue'); // 中円
+    grad.addColorStop(1,'deepskyblue');  //最大円
+    /* グラデーションをfillStyleプロパティにセット */
+    cont1.fillStyle = grad;
+    //cont1.rect(150,0, 200,200);
+    cont1.fill();
+    cont.beginPath();
+    //cont1.fillStyle = 'rgb(128, 100, 162)';
+    //cont1.arc(80,40,20,Math.PI*0.5,Math.PI*1.5,true);
+    //cont1.fill();
+    //cont1.arc(80,80,20,Math.PI*0.5,Math.PI*1.5,false);
+    //cont1.fill();
+    cont.arc(230,60,60,0,Math.PI*2,false);
+    cont.fill();
+
+    //赤系グラデーションの円
+    var grad2  = cont1.createRadialGradient(230,140,20,230,180,60);
+    //最小円の座標(x､y)、半径、中円の座標(x､y)、半径
+    /* グラデーション終点のオフセットと色をセット */
+    grad2.addColorStop(0,'red');      // 最小円
+    grad2.addColorStop(0.5,'orangered'); // 中円
+    grad2.addColorStop(1,'yellow');  //最大円
+    /* グラデーションをfillStyleプロパティにセット */
+    cont1.fillStyle = grad2;
+    cont1.fill(); 
+    cont1.arc(230,180,60,0,Math.PI*2,false); //外枠
+    cont1.fill();
+  }
+}
+//-->
+</script>
+</head>
+<body onLoad="test()">
+<h2>Canvasで図形を描く</h2>
+<canvas id="sample" style="background-color:lightgray;" width=400px height=400px>
+図形を表示するには、canvasタグをサポートしたブラウザが必要です。
+</canvas>
+</body>
+</html>
