@@ -1,0 +1,116 @@
+<html>
+<head>
+<title>アニメーションのテスト</title>
+<script type="text/javascript">
+// <![CDATA[
+window.onload = function(){
+    //コンテキストの取得
+    var canvas = document.getElementById("can");
+    if(!canvas || !canvas.getContext) return false;
+    var ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#ceceff";//描画色を指定
+    
+    //options
+    var point = {x:100,y:100};//座標
+    var par = {x:15,y:15};//変化量
+    var timer;//タイマー
+    var delay = 50;//タイマーを実行する間隔
+    
+    //描画処理を行う関数。loop()関数の中で呼び出す。
+    function draw(x,y){
+        ctx.clearRect(0,0,600,500);//一度canvasをクリア
+        ctx.strokeRect(100,100,400,300);
+        ctx.moveTo(20+x, 20+y);//外枠＆色
+        ctx.lineTo(45+x, 20+y);
+        ctx.lineTo(45+x, 45+y);
+        ctx.lineTo(20+x, 45+y);
+        ctx.lineTo(20+x, 20+y);
+        ctx.fillStyle = 'rgb(139, 69, 19)';
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.beginPath();//横線
+        ctx.moveTo(20+x, 26+y);
+        ctx.lineTo(45+x, 26+y);
+        ctx.moveTo(45+x, 32+y);
+        ctx.lineTo(20+x, 32+y);
+        ctx.moveTo(20+x, 38+y);
+        ctx.lineTo(45+x, 38+y);
+        ctx.stroke();
+
+        ctx.beginPath();//縦線
+        ctx.moveTo(27+x, 20+y);
+        ctx.lineTo(27+x, 26+y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(37+x, 20+y);
+        ctx.lineTo(37+x, 26+y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(33+x, 27+y);
+        ctx.lineTo(33+x, 33+y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(27+x, 33+y);
+        ctx.lineTo(27+x, 39+y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(37+x, 33+y);
+        ctx.lineTo(37+x, 39+y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(33+x, 39+y);
+        ctx.lineTo(33+x, 45+y);
+        ctx.stroke();
+    
+    }
+    
+    //繰り返し描画を行う関数。
+    var loop = function(){
+        //pointの数値をparの分だけ増やす
+        if(point.x < 90 || point.x > 450){
+            par.x *= (-1);
+            if(point.y < 90 || point.y > 350){
+                 par.y *= (-1);
+            }
+        }else if(point.y < 90 || point.y > 350){
+            par.y *= (-1);
+            if(point.x < 90 || point.x > 450){
+                 par.x *= (-1);
+            }
+        }
+        point.x = point.x + par.x;
+        point.y = point.y + par.y;
+        //描画処理を呼び出す
+        draw(point.x,point.y);
+        //タイマー(一度クリアしてから再設定。)
+        clearTimeout(timer);
+        timer = setTimeout(loop,delay);
+    }
+    loop();
+}
+// ]]>
+</script>
+<style type="text/css" media="screen">
+/* <![CDATA[ */
+div#stage{
+    width:600px;
+    height:500px;
+    position:absolute;
+    top:50%;
+    left:50%;
+    margin-left:-300px;
+    margin-top:-250px;
+    background:#000;
+}
+/* ]]> */
+</style>
+
+</head>
+
+<body>
+<div id="stage">
+<canvas id="can" style="background-color:lightgray;" width="600" height="500"></canvas>
+</div>
+</body>
+</html>

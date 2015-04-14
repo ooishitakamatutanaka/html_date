@@ -64,7 +64,59 @@ function test() {
     cont1.stroke();
 
   }
+
+var canvas = document.getElementById('test');
+  if (canvas.getContext) {
+    var ctx = canvas.getContext('2d');
+
+    //煉瓦ブロック
+    ctx.moveTo(20, 20);//外枠＆色
+    ctx.lineTo(45, 20);
+    ctx.lineTo(45, 45);
+    ctx.lineTo(20, 45);
+    ctx.lineTo(20, 20);
+    ctx.fillStyle = 'rgb(139, 69, 19)';
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.beginPath();//横線
+    ctx.moveTo(20, 26);
+    ctx.lineTo(45, 26);
+    ctx.moveTo(45, 32);
+    ctx.lineTo(20, 32);
+    ctx.moveTo(20, 38);
+    ctx.lineTo(45, 38);
+    ctx.stroke();
+
+    ctx.beginPath();//縦線
+    ctx.moveTo(27, 20);
+    ctx.lineTo(27, 26);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(37, 20);
+    ctx.lineTo(37, 26);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(33, 27);
+    ctx.lineTo(33, 33);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(27, 33);
+    ctx.lineTo(27, 39);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(37, 33);
+    ctx.lineTo(37, 39);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(33, 39);
+    ctx.lineTo(33, 45);
+    ctx.stroke();
+    
+
+  }
 }
+
 //-->
 </script>
 </head>
@@ -73,5 +125,6 @@ function test() {
 <canvas id="sample" style="background-color:lightgray;" width=400px height=400px>
 図形を表示するには、canvasタグをサポートしたブラウザが必要です。
 </canvas>
+<canvas id="test" style="background-color:lightgray;" width=400px height=300px></canvas>
 </body>
 </html>
