@@ -1,0 +1,36 @@
+<html>
+<head>
+<title></title>
+
+<body>
+<canvas id="cv" width="360" height="240"></canvas>
+
+<script>
+var ctx = document.getElementById("cv").getContext("2d");
+ctx.beginPath();
+ctx.arc(50, 50, 25, 0, Math.PI*2, true);
+ctx.stroke();
+
+
+var ctx = document.getElementById("cv").getContext("2d");
+ctx.strokeStyle = "green"; 
+ctx.beginPath();
+ctx.arc(200, 100, 30, -Math.PI/2.5, Math.PI/3*2, true);
+ctx.stroke();
+
+
+
+var ctx = document.getElementById("cv").getContext("2d");
+ctx.strokeStyle = "green"; 
+ctx.beginPath();
+ctx.arc(170, 152, 30, -Math.PI/3, Math.PI/6*2, false);
+ctx.stroke();
+
+//////////////////////////
+//ctx.globalAlpha = 0.5;//
+//////////////////////////
+
+
+</script>
+</body>
+</html>
