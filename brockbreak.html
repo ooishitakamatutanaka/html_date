@@ -13,7 +13,7 @@ window.onload = function(){
     //options
     var p = {minx:100,miny:100,maxx:500,maxy:400} //範囲の変数化
     var point = {x:300,y:250}; //球の座標
-    var a = {x:3,y:2}; //初期変化量
+    var a = {x:2,y:2}; //初期変化量
     var par = {x:a.x,y:a.y}; //現在変化量
     var mouse = 275; //マウスの座標(バーの座標)
     var pr = 5; //球の半径
@@ -32,6 +32,7 @@ window.onload = function(){
     var timer;//タイマー
     var delay =5;//タイマーを実行する間隔
     
+
     //描画処理を行う関数。loop()関数の中で呼び出す。
     function draw(x,y){
         ctx.clearRect(0,0,600,500);//一度canvasをクリア
@@ -64,14 +65,14 @@ window.onload = function(){
         if(brock[i][j] == 0){
             if(point.x >= (p.minx+(i*5+5)+(i*bwith)-pr) && point.x <= ((p.minx+(i*5+5)+(i*bwith)+bwith)+pr)){
                 if(point.y >= (p.miny+(j*5+5)+(j*bhei)-pr) && point.y <= (p.miny+(j*5+5)+(j*bhei)+bhei+pr)){
-                    pointformat();
+                    parformat();
                     par.y *= (-1)*Math.random()*rdm;
                     par.x *= Math.random()*rdm;
                     brock[i][j] = 1;
                 }
             }else if(point.y >= (p.miny+(j*5+5)+(j*bhei)-pr) && point.y <= (p.miny+(j*5+5)+(j*bhei)+bhei+pr)){
                 if(point.x >= (p.minx+(i*5+5)+(i*bwith)-pr) && point.x <= ((p.minx+(i*5+5)+(i*bwith)+bwith)+pr)){
-                    pointformat();
+                    parformat();
                     par.x *= (-1)*Math.random()*rdm;
                     par.y *= Math.random()*rdm;
                     brock[i][j] = 1;
@@ -92,7 +93,7 @@ window.onload = function(){
         }
     }
     }
-    function pointformat(){ //座標加速度の初期化
+    function parformat(){ //座標加速度の初期化
     if(par.x < 0 && par.y >= 0){
         par.x = a.x*(-1);par.y = a.y;
     }else if(par.y < 0 && par.x >= 0){
@@ -107,22 +108,24 @@ window.onload = function(){
     var loop = function(){
         
         //pointの数値をparの分だけ増やす
+        //範囲内で加速度の反転
+        //0.0～1.0×rdmで加速度の増加値の変更
         if(point.x < 105 || point.x > 495){
-            pointformat();
+            parformat();
             par.x *= (-1)*Math.random()*rdm;
-            par.y *= Math.random()*3;
+            par.y *= Math.random()*rdm;
             if(point.y < 105){
                 par.y *= (-1);
             }
         }else if(point.y < 105){
-            pointformat();
+            parformat();
             par.y *= (-1)*Math.random()*rdm;
             par.x *= Math.random()*rdm;
             if(point.x < 105 || point.x > 495){
                 par.x *= (-1);
             }
         }else if(point.y >= 380 && point.y <= 390 && point.x >= mouse-25 && point.x <= mouse+25){
-            pointformat();
+            parformat();
             par.y *= (-1)*Math.random()*rdm;
             par.x *= Math.random()*rdm;
             if(point.x < 105 || point.x > 495){
@@ -132,6 +135,10 @@ window.onload = function(){
             par.x = par.y = 0;
         }else{
             jud();
+        }
+        if(point.x < 90 || point.x > 505 || point.y < 90 || point.y > 410){
+            point = {x:300,y:250};
+            par = {x:a.x,y:a.y};
         }
         point.x = point.x + par.x;
         point.y = point.y + par.y;
