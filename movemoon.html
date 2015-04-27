@@ -3,7 +3,7 @@
 <script>
 window.onload = function(){
        var x = 10,y = 200;
-       //var frag = 0;
+       var frag = 0;
        var cv = document.getElementById('cv');
        var ctx = cv.getContext('2d');
        
@@ -265,7 +265,17 @@ window.onload = function(){
        //ctx.fillRect(x,y,100,100);
        
        x = x + 0.9;
-       y = y - 0.35;
+       //y = y - 0.35;
+       //if文導入ミス。失敗原因不明
+       if( frag == 0 ){  //もしfragが0なら
+         y = y - 0.35;   //ｙ=y-0.35
+           if( y < 100 ){ //もしyが90より小さくなったら
+             frag = 1;   //frag=1にする
+           }
+       }else{            //それ以外は
+         y = y + 0.35;   //y=y+0.35
+       }
+       
        
        //x++; y--;
        
