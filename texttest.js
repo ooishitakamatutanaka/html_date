@@ -1,4 +1,9 @@
+document.write("<script type='text/javascript' src='style-free.js'<>\/script>");
 window.onload = function() {
+  
+  //document.write("<script type='text/javascript' src='style-free.js'<>\/script>");
+
+  
   //描画コンテキストの取得
   var canvas = document.getElementById('sample');
   if (canvas.getContext) {
@@ -14,6 +19,7 @@ window.onload = function() {
     ctx.clearRect(0,0,600,500);
 
     text();
+    free();
 
   }
 
