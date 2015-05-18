@@ -2,14 +2,17 @@
 // 2015/05/14
 // ooisi
 // ファイル名：walk3.js
-// id＝sample
+// id＝canvaswalk
 //
 
 window.onload = function() {
-var canvas = document.getElementById("sample");
+var canvas = document.getElementById("canvaswalk");
 var ctx = canvas.getContext('2d');
 canvas.width = 800;
 canvas.height = 400;
+
+ctx.fillStyle = "rgba(0,0,0,0)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
     
 document.addEventListener("keydown", keyDownFunc);
 document.addEventListener("keyup", keyUpFunc);
@@ -33,7 +36,7 @@ var count = -10;
 
 var bgspeed = 4; //スクロールスピード
 var scroll = 0;
-var brock = 50; //ブロック数
+var brock = 10; //ブロック数
 
 var objcount = 0;
 var ret = 1; //
@@ -41,9 +44,20 @@ var yl = 0;  //
 var end = 0; //
 var imotalobj = new Array(); //
 ImotalobjSet();
-var objcol = new Array();
+/*
+imotalobj[brock+1][0] = imotalobj[brock][1] + 300 - scroll;
+    imotalobj[brock+1][1] = imotalobj[brock+1][0] + 300 - scroll;
+    imotalobj[brock+1][2] = 300+player.size;
+    imotalobj[brock+1][3] = imotalobj[brock+1][2] + 100;
+    imotalobj[brock+1][4] = 300;
+    imotalobj[brock+1][5] = 100;
+*/
 var cl = new Array(); //
 cl = {r:0,g:0,b:0};
+
+var text = new Array("責任","失敗","残業","左遷","同期"); 
+
+var img = new Image();
 
 var player = new Player();
 
@@ -90,19 +104,30 @@ function loop() {
 
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    ctx.beginPath();
-    ctx.moveTo(scroll*(-1),300+player.size);
-    ctx.lineTo(canvas.width-scroll,300+player.size);
-    ctx.closePath();
-    ctx.stroke();
+    ctx.fillStyle = "rgba(0,0,0,0)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
 
-    for(i=0;i<imotalobj.length;i++){
+    ctx.beginPath();
+    ctx.fillStyle = "rgb(120,60,10)";
+    ctx.fillRect(scroll*(-1),300+player.size,canvas.width,100);
+
+    //ctx.beginPath();
+    //ctx.fillStyle = "rgb(250,190,15)";
+    //ctx.fillRect(imotalobj[brock][0],imotalobj[brock][2],imotalobj[brock][4],100);
+
+
+    for(i=0;i<brock;i++){
       ctx.beginPath();
       if(colflg == true){
         randomcolor(i);
       }
       ctx.fillStyle = 'rgb('+cl[i].r+', '+cl[i].g+', '+cl[i].b+')';
       ctx.fillRect(imotalobj[i][0],imotalobj[i][2]+player.size,imotalobj[i][4],imotalobj[i][5]);
+
+      ctx.font = "26px 'ＭＳ Ｐゴシック'";
+      ctx.fillStyle = 'rgb(0, 0, 0)';
+      ctx.fillText(text[imotalobj[i][6]],imotalobj[i][0] ,imotalobj[i][2]+imotalobj[i][5] ,imotalobj[i][4]);
+
     }
     colflg = false;
 
@@ -269,33 +294,42 @@ function Playerscroll(){
   }
 }
 function ImotalobjSet(){
-  imotalobj[0] = [800-scroll, 900-scroll, 250, 260, 100, 50];
-  imotalobj[1] = [900-scroll, 1000-scroll, 200, 210, 100, 50];
-  imotalobj[2] = [1050-scroll, 1100-scroll, 120, 130, 50, 20];
+  imotalobj[0] = [800-scroll, 900-scroll, 250, 260, 100, 50, 0];
+  imotalobj[1] = [900-scroll, 1000-scroll, 200, 210, 100, 50, 1];
+  imotalobj[2] = [1050-scroll, 1100-scroll, 120, 130, 50, 40, 2];
 ///*
-  for(i=3;i<50;i++){
+  for(i=3;i<brock;i++){
     if(jf == false){
 
       imotalobj[i] = [];
       imotalobj[i][0] = imotalobj[i-1][1] + Math.floor(Math.random()*100);
-      imotalobj[i][1] = imotalobj[i][0] + 20 + Math.floor(Math.random()*100);
+      imotalobj[i][1] = imotalobj[i][0] + 40 + Math.floor(Math.random()*100);
       imotalobj[i][2] = 100 + Math.floor(Math.random()*200);
-      imotalobj[i][3] = imotalobj[i][2] + 10 + Math.floor(Math.random()*40);
+      imotalobj[i][3] = imotalobj[i][2] + 30 + Math.floor(Math.random()*40);
       imotalobj[i][4] = imotalobj[i][1] - imotalobj[i][0];
       imotalobj[i][5] = imotalobj[i][3] - imotalobj[i][2];
+      imotalobj[i][6] = Math.floor(Math.random()*5)
       end = imotalobj[i][1];
+
+      //imotalobj[brock][0] = imotalobj[i][1] + 300;
+     //imotalobj[brock][1] = imotalobj[brock][0] + 300;
+      //imotalobj[brock][2] = 300+player.size;
+      //imotalobj[brock][3] = imotalobj[brock][2] + 100;
+      //imotalobj[brock][4] = 300;
+      //imotalobj[brock][5] = 100;
     }else{
-     imotalobj[i][0] -= bgspeed;
-     imotalobj[i][1] -= bgspeed;
+      imotalobj[i][0] -= bgspeed;
+      imotalobj[i][1] -= bgspeed;
+      //imotalobj[brock][0] -= bgspeed;
+      //imotalobj[brock][1] -= bgspeed;
     }
   }
   jf = true;
 //*/
 }
-function randomcolor(n){ //破壊ブロックの配色(ランダム)
+function randomcolor(n){ 
   cl[n] = {r:Math.floor(Math.random()*254),g:Math.floor(Math.random()*254),b:Math.floor(Math.random()*254)};
 }
-
 function Player() {
   this.size = 10;
   this.x = 0;
