@@ -2,15 +2,43 @@
 <html>
 <head>
 <title>style</title>
-<script type="text/javascript" src="protaction.js">
-<!--
 
- //-->
-</script>
+<script type="text/javascript" src="walk4.js"></script>
+<style type="text/css">
+
+#canvaswalk{
+	position:absolute;
+	top:0px;
+	left:0px;
+	z-index:1;
+}
+#background{
+	position:absolute;
+	top:0px;
+	left:0px;
+	z-index:0;
+}
+#p{
+	margin-top:450px;
+}
+
+</style>
 </head>
 <body>
-<canvas id="canvaswalk" style="background-color:lightgray;" width=800px height=400px>
+
+
+<canvas id="canvaswalk" width=800px height=400px>
 図形を表示するには、canvasタグをサポートしたブラウザが必要です。
 </canvas>
+
+
+
+<img id="background" src="ice.png" width=800px height=400px></img>
+
+<p>
+左移動：Aキー<br>
+右移動：Dキー<br>
+ジャンプ：スペースキー
+</p>
 </body>
 </html>
