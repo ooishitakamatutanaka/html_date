@@ -5,7 +5,7 @@
 // id＝canvaswalk
 //
 
-window.onload = function() {
+window.onload = function main() {
 var canvas = document.getElementById("canvaswalk");
 var ctx = canvas.getContext('2d');
 canvas.width = 800;
@@ -23,6 +23,7 @@ var downFlg  = false;
 var rightFlg = false;
 var enterflg = false;
 var startflg = false;
+var retryflg = false;
 var junpFlg  = false;
 var jf = false;
 var colflg = false;
@@ -38,7 +39,7 @@ var count = -10;
 
 var bgspeed = 0; //スクロールスピード
 var scroll = 0;
-var brock = 100; //ブロック数
+var brock = 10; //ブロック数
 
 var bar = 200;
 var textcol = 1; //透明度（０～１）
@@ -75,6 +76,8 @@ function keyDownFunc(e){
 	if (e.keyCode == 68) rightFlg = true;
         if (e.keyCode == 32) junpFlg = true;
         if (e.keyCode == 13){
+          if(retryflg == true)
+          enterflg = true;
           startflg = true;
           bgspeed = 4;
         }
@@ -85,7 +88,6 @@ function keyUpFunc(e){
 	if (e.keyCode == 87) upFlg    = false;
 	if (e.keyCode == 83) downFlg  = false;
 	if (e.keyCode == 68) rightFlg = false;
-        //if (e.keyCode == 32) junpFlg = false;
 }
 
 function loop() {
@@ -94,8 +96,6 @@ function loop() {
 	if(leftFlg == true && notleft == false && 200+player.x > 0){
           player.x -= player.speed;
         }
-	//if (upFlg)    player.y -= player.speed;
-	//if (downFlg)  player.y += player.speed;
 	if(rightFlg == true && notright == false && 200+player.x < canvas.width){
           if(yl == 0 && t == -10 && 200+player.x > canvas.width-scroll-player.size){
             player.x -= bgspeed;
@@ -124,11 +124,6 @@ function loop() {
     ctx.beginPath();
     ctx.fillStyle = "rgb(120,60,10)";
     ctx.fillRect(scroll*(-1),300+player.size,canvas.width,100);
-
-    //ctx.beginPath();
-    //ctx.fillStyle = "rgb(250,190,15)";
-    //ctx.fillRect(imotalobj[brock][0],imotalobj[brock][2],imotalobj[brock][4],100);
-
 
     for(i=0;i<brock;i++){
       ctx.beginPath();
@@ -170,14 +165,12 @@ function loop() {
     ctx.fill();
     ret = 1;
 
-    //if(junpFlg == false){
-    //  Fall();
-    //}
     NotFall();
     Junp(); //ジャンプの判定関数
     Playerscroll();
     Clearflag();
     GameOver();
+    retry();
 }
 
 function Junp(){
@@ -196,49 +189,9 @@ function Junp(){
       yl = 0;
       junpFlg = false;
       player.y = yl;
-/*    }else if(200+player.x < canvas.width+100){
-      t = -10;
-      yl = 0;
-      junpFlg = false;
-      player.y = y;
-*/
-/*
-      t = -10;
-      yl = 0;
-      junpFlg = false;
-      player.y = y;
-*/
     }
   }
 }
-
-/*
-function Junp(){ //ジャンプの判定
-  if(jf == true){ //ジャンプ中のフラグ(通常時：false、下降時：true)
-    JunpFlg = false; //下降時にはジャンプフラグをfalse
-  }
-  if(junpFlg == true && jf == false){ //ジャンプ押下かつ下降時でない
-    if(count >= 0  && count <= 25){ //countが0以上25以下
-      player.y = -count*4; //加速値4
-      count++; //countを+1
-    }else{ //countが25より大きい(初期値から100px以上上昇したとき)
-      junpFlg = false; //ジャンプフラグをfalse、状態を下降(jfをtrue)にする
-      jf = true;
-    }
-  }else{
-    jf = true; //ジャンプ中にジャンプボタンが離された場合状態を下降にする
-    if(count > 0 && player.y < 0){ //countが0より大きいかつ座標が初期値より小さい
-      player.y = -count*4; //加速値-4
-      count--; //countを-1
-    }else if(count <= 0){ //countが0以下のときcountと座標を初期化
-      count = 0;
-      player.y = 0;
-      jf = false; //下降中の終了
-    }
-  }
-}
-
-*/
 
 function FloorJuddeg(px,py){
   if(300+player.y <= 300+player.size && t >= 5){
@@ -326,34 +279,52 @@ function ImotalobjSet(){
       imotalobj[i][5] = imotalobj[i][3] - imotalobj[i][2];
       imotalobj[i][6] = Math.floor(Math.random()*5)
       end = imotalobj[i][1];
-
-      //imotalobj[brock][0] = imotalobj[i][1] + 300;
-      //imotalobj[brock][1] = imotalobj[brock][0] + 300;
-      //imotalobj[brock][2] = 300+player.size;
-      //imotalobj[brock][3] = imotalobj[brock][2] + 100;
-      //imotalobj[brock][4] = 300;
-      //imotalobj[brock][5] = 100;
     }else{
       imotalobj[i][0] -= bgspeed;
       imotalobj[i][1] -= bgspeed;
-      //imotalobj[brock][0] -= bgspeed;
-      //imotalobj[brock][1] -= bgspeed;
     }
   }
   jf = true;
-//*/
 }
 function randomcolor(n){ 
-  cl[n] = {r:Math.floor(Math.random()*254),g:Math.floor(Math.random()*254),b:Math.floor(Math.random()*254)};
+  cl[n] = {r:Math.floor(Math.random()*100),g:Math.floor(Math.random()*254),b:200/*Math.floor(Math.random()*254)*/};
 }
 function Clearflag(){
-  if(200+player.x >= imotalobj[brock-1][0] && 200+player.x <= end-scroll && 300+player.y >= imotalobj[brock-1][2] && 300+player.y <= imotalobj[brock-1][2]+10){
+  if(200+player.x >= imotalobj[brock-1][0] && 200+player.x <= end-scroll && 300+player.y >= imotalobj[brock-1][2] && 300+player.y <= imotalobj[brock-1][2]+10 && startflg == true){
+    retryflg = true;
+    player.speed = 0;
     bgspeed = 0;
+    ctx.font = "36px 'ＭＳ Ｐゴシック'";
+    ctx.fillStyle = 'rgb(0, 0, 0)';
+    ctx.fillText("GAMECLEAR!", 300, 100,200);
+    if(textcol <= 0){
+      textcount *= -1;
+    }else if(textcol >= 1){
+      textcount *= -1;
+    }
+    textcol += textcount;
+    ctx.fillStyle = 'rgba(0, 0, 0, '+textcol+')';
+    ctx.fillText("- RETRY ENTER -", 300, 150,200);
   }
 }
 function GameOver(){
   if(300+player.y >= 500 || 200+player.x <= 10){
-    bgspeed = 0;
+    if(startflg == true){
+      retryflg = true;
+      player.speed = 0;
+      bgspeed = 0;
+      ctx.font = "36px 'ＭＳ Ｐゴシック'";
+      ctx.fillStyle = 'rgb(0, 0, 0)';
+      ctx.fillText("GAMEOVER", 300, 100,200);
+      if(textcol <= 0){
+        textcount *= -1;
+      }else if(textcol >= 1){
+        textcount *= -1;
+      }
+      textcol += textcount;
+      ctx.fillStyle = 'rgba(0, 0, 0, '+textcol+')';
+      ctx.fillText("- RETRY ENTER -", 300, 150,200);
+    }
   }
 }
 function Player() {
@@ -376,5 +347,8 @@ function start(){
     ctx.fillStyle = 'rgb(0, 0, 0)';
     ctx.fillText("LEFT:A  RIGHT:D  JUNP:space", 200, 150,400);
 }
-
+function retry(){
+    if(enterflg == true && retryflg == true)
+      location.reload(true);
+}
 }
